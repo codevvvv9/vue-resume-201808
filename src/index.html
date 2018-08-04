@@ -7,6 +7,7 @@
     <title>个人简历</title>
   <link href="css/index.css" rel="stylesheet"/>
   <link rel="stylesheet" href="css/resume.css">
+  <link href="css/editable-span.css" rel="stylesheet"/>
 </head>
 <body>
     <div class="page" id="app">
@@ -34,13 +35,16 @@
         <main>
             <div class="resume">
                 <section class="profile">
-                    <span>
-                      <span v-show="!editingName" contenteditable="true">{{resume.name}}</span>
-                      <input v-show="editingName" type="text" v-model="resume.name">
-                      <button @click="editingName = !editingName" class="button">edit</button>
-                    </span>
-                    <p>应聘职位：{{ resume.jobTitle}}</p>
-                    <p class="profile">{{ resume.birthday}} | {{resume.gender }} | {{ resume.email}} | {{resume.phone}}</p>
+                  <h1>
+                    <editable-span :value="resume.name" @edit="onEdit('name', $event)"></editable-span>
+                  </h1>
+                  <p>应聘职位：<editable-span :value="resume.jobTitle" @edit="onEdit('jobTitle', $event)"></editable-span></p>
+                  <p class="profile">
+                    <editable-span :value="resume.birthday" @edit="onEdit('birthday', $event)"></editable-span>  |
+                    <editable-span :value="resume.gender" @edit="onEdit('gender', $event)"></editable-span>  |
+                    <editable-span :value="resume.email" @edit="onEdit('email', $event)"></editable-span>  |
+                    <editable-span :value="resume.phone" @edit="onEdit('phone', $event)"></editable-span>
+                  </p>
                 </section>
                 <section class="skills">
                     <h2>技能</h2>
@@ -122,23 +126,7 @@
     <script src="../vendors/av-min.js"></script>
     <script src="./js/av.js"></script>
     <script src="../vendors/vue.min.js"></script>
-    <script>
-      var app = new Vue({
-        el: '#app',
-        data: {
-          editingName: false,
-          resume: {
-            name: '姓名',
-            gender: '男',
-            birthday: '1991-11-07',
-            jobTitle: '前端工程师',
-            email: 'example@example.com',
-            phone: '1666666666'
-          }
-        },
-        methods: {
-        }
-      })
-    </script>
+    <script src="js/editable-span.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
