@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,7 @@
   <link href="css/index.css" rel="stylesheet"/>
   <link rel="stylesheet" href="css/resume.css">
   <link href="css/editable-span.css" rel="stylesheet"/>
+  <link href="css/login.css" rel="stylesheet"/>
 </head>
 <body>
     <div class="page" id="app">
@@ -15,7 +16,7 @@
             <div class="upper">
                 <ul class="actions">
                     <li>
-                      <button class="button">保存</button>
+                      <button class="button" @click="onClickSave">保存</button>
                     </li>
                     <li>
                       <button class="button">分享</button>
@@ -34,11 +35,14 @@
         </aside>
         <main>
             <div class="resume">
+                {{ resume }}
                 <section class="profile">
                   <h1>
                     <editable-span :value="resume.name" @edit="onEdit('name', $event)"></editable-span>
                   </h1>
-                  <p>应聘职位：<editable-span :value="resume.jobTitle" @edit="onEdit('jobTitle', $event)"></editable-span></p>
+                  <p>应聘职位：
+                    <editable-span :value="resume.jobTitle" @edit="onEdit('jobTitle', $event)"></editable-span>
+                  </p>
                   <p class="profile">
                     <editable-span :value="resume.birthday" @edit="onEdit('birthday', $event)"></editable-span>  |
                     <editable-span :value="resume.gender" @edit="onEdit('gender', $event)"></editable-span>  |
@@ -122,6 +126,9 @@
                 </section>
             </div>
         </main>
+        <div class="login">
+          登录
+        </div>
     </div>
     <script src="../vendors/av-min.js"></script>
     <script src="./js/av.js"></script>
