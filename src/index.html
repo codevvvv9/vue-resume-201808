@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/resume.css">
   <link href="css/editable-span.css" rel="stylesheet"/>
   <link href="css/login.css" rel="stylesheet"/>
+  <link href="css/signUp.css" rel="stylesheet"/>
 </head>
 <body>
     <div class="page" id="app">
@@ -126,8 +127,47 @@
                 </section>
             </div>
         </main>
-        <div class="login">
-          登录
+        <div v-show="loginVisible" class="login">
+          <form class="form">
+            <div class="loginAndClose">
+              <h2>登录</h2>
+              <button @click="loginVisible = false">关闭</button>
+            </div>
+
+            <div class="row">
+              <label for="">邮箱：</label>
+              <input type="text">
+            </div>
+            <div class="row">
+              <label for="">密码：</label>
+              <input type="text">
+            </div>
+            <div class="actions">
+              <button>提交</button>
+              <a href="#" @click="signUpVisible = true; loginVisible = false">注册</a>
+            </div>
+          </form>
+        </div>
+        <div v-show="signUpVisible" class="signUp">
+          <form class="form">
+            <div class="signUpAndClose">
+              <h2>注册</h2>
+              <button @click="signUpVisible = false">关闭</button>
+            </div>
+
+            <div class="row">
+              <label for="">邮箱：</label>
+              <input type="text">
+            </div>
+            <div class="row">
+              <label for="">密码：</label>
+              <input type="text">
+            </div>
+            <div class="actions">
+              <button>提交</button>
+              <a href="#" @click="signUpVisible = false; loginVisible = true">登录</a>
+            </div>
+          </form>
         </div>
     </div>
     <script src="../vendors/av-min.js"></script>

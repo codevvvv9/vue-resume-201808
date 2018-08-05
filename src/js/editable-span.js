@@ -2,13 +2,13 @@ Vue.component('editable-span', {
   props: ['value'],
   template: `
             <span class="editableSpan">
-              <span v-show="!editingName" contenteditable="true">{{ value }}</span>
-              <input v-show="editingName" type="text" :value="value" @input="triggerEdit">
-              <button @click="editingName = !editingName" class="button">edit</button>
+              <span v-show="!editing" contenteditable="true">{{ value }}</span>
+              <input v-show="editing" type="text" :value="value" @input="triggerEdit">
+              <button @click="editing = !editing" class="button">edit</button>
             </span>`,
   data() {
     return {
-      editingName: false,
+      editing: false
     }
   },
   methods: {

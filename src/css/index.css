@@ -15,7 +15,7 @@ a {
 body {
   font-size: 18px;
 }
-
+button {font-size: inherit;}
 ul, ol {
   list-style: none;
 }
@@ -58,7 +58,6 @@ ul, ol {
 }
 
 .button {
-  padding: 2px;
-  font-size: inherit;
+  padding: 3px 10px;
 }
 
