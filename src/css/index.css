@@ -16,6 +16,7 @@ body {
   font-size: 18px;
 }
 button {font-size: inherit;}
+div[v-cloak] {display: none;}
 ul, ol {
   list-style: none;
 }

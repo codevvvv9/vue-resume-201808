@@ -3,7 +3,7 @@ let app = new Vue({
   data: {
     editingName: false,
     loginVisible: false,
-    signUpVisible: true,
+    signUpVisible: false,
     resume: {
       name: '姓名',
       gender: '男',
@@ -16,6 +16,10 @@ let app = new Vue({
       userName: '',
       email: '',
       password: ''
+    },
+    login: {
+      email: '',
+      password: ''
     }
   },
   methods: {
@@ -23,13 +27,8 @@ let app = new Vue({
       this.resume[key] = value
     },
     onSignUp(e) {
-      console.log(e);
-      console.log(this)
-      console.log(this.signUp)
       // 新建 AVUser 对象实例
       var user = new AV.User();
-      console.log(1);
-      console.log(user);
       // 设置用户名
       user.setUsername(this.signUp.userName);
       // 设置密码
@@ -42,6 +41,22 @@ let app = new Vue({
         console.log(error);
       });
     },
+    onLogin(e) {
+      AV.User.logIn(this.login.email, this.login.password).then(function (loggedInUser) {
+        console.log(loggedInUser);
+      }, function (error) {
+        if (error.code === 211) {
+          alert('用户不错在')
+        } else if(error.code === 210) {
+          alert('邮箱和密码不匹配')
+        }
+      });
+    },
+    onLogOut(e) {
+      AV.User.logOut()
+      alert('注销成功')
+      window.location.reload()
+    },
     onClickSave() {
       let currentUser = AV.User.current()
       console.log(currentUser)
@@ -53,7 +68,13 @@ let app = new Vue({
       }
     },
     saveResume() {
-
+      let {id} = AV.User.current()
+      // 第一个参数是 className，第二个参数是 objectId
+      var user = AV.Object.createWithoutData('User', id);
+      // 修改属性
+      user.set('resume', this.resume);
+      // 保存到云端
+      user.save();
     }
   }
 });
