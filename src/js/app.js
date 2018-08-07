@@ -4,6 +4,10 @@ let app = new Vue({
     editingName: false,
     loginVisible: false,
     signUpVisible: false,
+    currentUser: {
+      id: '',
+      email: ''
+    },
     resume: {
       name: '姓名',
       gender: '男',
@@ -25,6 +29,8 @@ let app = new Vue({
   methods: {
     onEdit(key, value) {
       this.resume[key] = value
+      console.log(key)
+      console.log(value)
     },
     onSignUp(e) {
       // 新建 AVUser 对象实例
@@ -42,9 +48,15 @@ let app = new Vue({
       });
     },
     onLogin(e) {
-      AV.User.logIn(this.login.email, this.login.password).then(function (loggedInUser) {
+      AV.User.logIn(this.login.email, this.login.password).then((loggedInUser) => {
         console.log(loggedInUser);
-      }, function (error) {
+        this.currentUser = {
+          id: loggedInUser.id,
+          email: loggedInUser.attributes.email
+        }
+        // this.currentUser.id = loggedInUser.id
+        // this.currentUser.email = loggedInUser.attributes.email
+      }, (error) => {
         if (error.code === 211) {
           alert('用户不错在')
         } else if(error.code === 210) {
@@ -77,4 +89,9 @@ let app = new Vue({
       user.save();
     }
   }
-});
+})
+
+let currentUser= AV.User.current()
+if (currentUser) {
+  app.currentUser = currentUser
+}
