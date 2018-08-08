@@ -13,10 +13,7 @@ Vue.component('editable-span', {
   },
   methods: {
     triggerEdit(e) {
-      console.log(e)
       this.$emit('edit', e.target.value)
-      console.log(1)
-      console.log(e.target.value)
     }
   }
 })
