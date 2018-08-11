@@ -61,4 +61,9 @@ ul, ol {
 .button {
   padding: 3px 10px;
 }
-
+.skills > ul > li {position: relative}
+.skills > ul > li .remove{
+  position: absolute;
+  top: 0;
+  right: 0;
+}

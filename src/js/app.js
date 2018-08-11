@@ -14,7 +14,18 @@ let app = new Vue({
       birthday: '1991-11-07',
       jobTitle: '前端工程师',
       email: 'example@example.com',
-      phone: '1666666666'
+      phone: '1666666666',
+      skills: [
+        {name: '请填写技能名称', description: '请填写技能描述'},
+        {name: '请填写技能名称', description: '请填写技能描述'},
+        {name: '请填写技能名称', description: '请填写技能描述'},
+        {name: '请填写技能名称', description: '请填写技能描述'},
+      ],
+      projects: [
+        {name: '请填写项目名称', link: 'http://...', keywords: '请填写关键字', description: '请填写技能描述'},
+        {name: '请填写项目名称', link: 'http://...', keywords: '请填写关键字', description: '请填写技能描述'},
+        {name: '请填写项目名称', link: 'http://...', keywords: '请填写关键字', description: '请填写技能描述'},
+      ]
     },
     signUp: {
       userName: '',
@@ -28,7 +39,23 @@ let app = new Vue({
   },
   methods: {
     onEdit(key, value) {
-      this.resume[key] = value
+      //使用正则表达式把[0]形式分解成.0.
+      let reg = /\[(\d+)\]/g
+      key = key.replace(reg, (match, number) => `.${number}`)
+      keys = key.split('.')
+      let result = this.resume
+      for (let i = 0; i < keys.length; i++) {
+        // result = this.resume
+        // i = 0 result = result['skills'] = this.resume['skills']
+        // i = 1 result = result['o'] = this.resume['skills']['0']
+        // i = 2 result = result['name'] = this.resume['skills']['0']['name']
+        if (i === keys.length - 1) {
+          result[keys[i]] = value
+        } else {
+          result = result[keys[i]]
+        }
+      }
+
     },
     onSignUp(e) {
       // 新建 AVUser 对象实例
@@ -104,13 +131,24 @@ let app = new Vue({
       query.get(this.currentUser.objectId).then((user) => {
         // 成功获得实例
         // todo 就是 id 为 57328ca079bc44005c2472d0 的 Todo 对象实例
-        console.log(user)
         let resume = user.toJSON().resume
-        this.resume = resume
+        Object.assign(this.resume, resume)
       },  (error) => {
         // 异常处理
       });
-    }
+    },
+    addSkill() {
+      this.resume.skills.push({name: '请填写技能名称', description: '请填写技能描述'})
+    },
+    removeSkill(index) {
+      this.resume.skills.splice(index, 1)
+    },
+    addProject() {
+      this.resume.projects.push({name: '请填写项目名称', link: 'http://...', keywords: '请填写关键字', description: '请填写技能描述'})
+    },
+    removeProject(index) {
+      this.resume.projects.splice(index, 1)
+    },
   }
 })
 
