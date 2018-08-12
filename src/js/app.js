@@ -5,6 +5,7 @@ let app = new Vue({
     loginVisible: false,
     signUpVisible: false,
     shareVisible: false,
+    skinPickerVisible: false,
     previewUser: {
       objectId: ""
     },
@@ -168,6 +169,9 @@ let app = new Vue({
     },
     print() {
       window.print()
+    },
+    setTheme(name) {
+      document.body.className = name
     }
   }
 })

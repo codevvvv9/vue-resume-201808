@@ -6,14 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>个人简历</title>
   <link href="css/index.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="css/resume.css">
+  <link rel="stylesheet" href="css/themes/dark.css">
+  <link rel="stylesheet" href="css/themes/default.css">
   <link href="css/editable-span.css" rel="stylesheet"/>
   <link href="css/login.css" rel="stylesheet"/>
   <link href="css/signUp.css" rel="stylesheet"/>
   <link href="css/share.css" rel="stylesheet"/>
+  <link href="css/skinPicker.css" rel="stylesheet"/>
   <link href="css/print.css" rel="stylesheet" media="print"/>
 </head>
-<body>
+<body class="default">
     <div class="page" id="app">
         <aside v-show="mode === 'edit'">
             <div class="upper">
@@ -28,7 +30,7 @@
                       <button class="button" @click="print">打印</button>
                     </li>
                     <li>
-                      <button class="button">换肤</button>
+                      <button class="button" @click="skinPickerVisible = !skinPickerVisible">换肤</button>
                       <!--<button class="button" @click="mode = 'edit'">退出预览</button>-->
                       <!--<button class="button" @click="mode = 'preview'">进入预览</button>-->
                     </li>
@@ -146,14 +148,11 @@
           </div>
         </div>
         <button class="exitPreview" @click="mode ='edit'" v-if="mode === 'preview'">退出预览</button>
+        <div class="skinPicker" v-show="skinPickerVisible">
+          <button @click="setTheme('default')">默认</button>
+          <button @click="setTheme('dark')">暗黑</button>
+        </div>
     </div>
-    <style>
-      .exitPreview {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-      }
-    </style>
     <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.9.0/dist/av-min.js"></script>
     <!--<script src="../vendors/av-min.js"></script>-->
     <script src="./js/av.js"></script>
