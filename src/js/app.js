@@ -4,6 +4,13 @@ let app = new Vue({
     editingName: false,
     loginVisible: false,
     signUpVisible: false,
+    shareVisible: false,
+    previewUser: {
+      objectId: ""
+    },
+    previewResume: {
+
+    },
     currentUser: {
       objectId: '',
       email: ''
@@ -35,6 +42,20 @@ let app = new Vue({
     login: {
       email: '',
       password: ''
+    },
+    shareLink: '当前没有用户登录，请选择注册',
+    mode: 'edit'
+  },
+  computed: {
+    displayResume() {
+      return this.mode === 'preview' ? this.previewResume : this.resume
+    }
+  },
+  watch: {
+    'currentUser.objectId': function (newValue, OldValue) {
+      if (newValue) {
+        this.getResume(this.currentUser)
+      }
     }
   },
   methods: {
@@ -82,7 +103,6 @@ let app = new Vue({
     onLogin(e) {
       AV.User.logIn(this.login.email, this.login.password).then((loggedInUser) => {
         loggedInUser = loggedInUser.toJSON()
-        console.log(loggedInUser)
         this.currentUser = {
           objectId: loggedInUser.objectId,
           email: loggedInUser.email
@@ -105,7 +125,6 @@ let app = new Vue({
     },
     onClickSave() {
       let currentUser = AV.User.current()
-      console.log(currentUser)
 
       if (!currentUser) {
         this.loginVisible = true
@@ -126,13 +145,11 @@ let app = new Vue({
         alert('保存失败了')
       });
     },
-    getResume() {
-      var query = new AV.Query('User');
-      query.get(this.currentUser.objectId).then((user) => {
-        // 成功获得实例
-        // todo 就是 id 为 57328ca079bc44005c2472d0 的 Todo 对象实例
+    getResume(user) {
+      var query = new AV.Query('User')
+      return query.get(user.objectId).then((user) => {
         let resume = user.toJSON().resume
-        Object.assign(this.resume, resume)
+        return resume
       },  (error) => {
         // 异常处理
       });
@@ -152,8 +169,27 @@ let app = new Vue({
   }
 })
 
+//获取当前用户
 let currentUser= AV.User.current()
 if (currentUser) {
   app.currentUser = currentUser.toJSON()
-  app.getResume()
+  app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
+  app.getResume(app.currentUser).then(resume => {
+    app.resume = resume
+  })
 }
+
+//获取预览用户的id
+let search = location.search
+let regex = /user_id=([^&]+)/
+let matches = search.match(regex)
+let userId
+if (matches) {
+  userId = matches[1]
+  app.mode = 'preview'
+  app.getResume({objectId: userId}).then(resume => {
+    // console.log(this)
+    app.previewResume = resume
+  })
+}
+
