@@ -11,6 +11,7 @@
   <link href="css/login.css" rel="stylesheet"/>
   <link href="css/signUp.css" rel="stylesheet"/>
   <link href="css/share.css" rel="stylesheet"/>
+  <link href="css/print.css" rel="stylesheet" media="print"/>
 </head>
 <body>
     <div class="page" id="app">
@@ -24,7 +25,7 @@
                       <button class="button" @click="shareVisible = true">分享</button>
                     </li>
                     <li>
-                      <button class="button">打印</button>
+                      <button class="button" @click="print">打印</button>
                     </li>
                     <li>
                       <button class="button">换肤</button>
@@ -63,7 +64,7 @@
                           </div>
                           <span class="remove" v-if="index >= 4 && mode === 'edit'" @click="removeSkill(index)">Delete</span>
                         </li>
-                        <li v-if="mode === 'edit'">
+                        <li v-if="mode === 'edit'" class="add">
                           <span @click="addSkill">Add</span>
                         </li>
                     </ul>
@@ -86,7 +87,7 @@
                           <p class="description"> <editable-span :disabled="mode === 'preview'" :value="project.description" @edit="onEdit(`projects[${index}].description`, $event)"></editable-span></p>
                           <span class="remove" v-if="index >= 3 && mode === 'edit'" @click="removeProject(index)">Delete</span>
                         </li>
-                        <li v-if="mode === 'edit'">
+                        <li v-if="mode === 'edit'" class="add">
                           <span @click="addProject">Add</span>
                         </li>
                     </ol>
