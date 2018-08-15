@@ -95,6 +95,7 @@ let app = new Vue({
           objectId: signedUpUser.objectId,
           email: signedUpUser.email
         }
+        this.saveResume()
         this.signUpVisible = false
       }, (error) => {
         alert(error.rawMessage)
